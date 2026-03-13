@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Assignment_6.MovieTicketBookingSystem.Interfaces;
+using Microsoft.VisualBasic;
+using System;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Security.Principal;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -58,18 +61,44 @@ namespace Assignment_6
             //Withdraw() , Deposit()
             //So the data is protected inside the system.
 
-        #endregion
+            #endregion
 
-        #region Question 2
+            #region Question 2
 
             //=========================================================
             //Q2 : What is the difference between an abstract class and an interface?
             //Give at least four differences.When would you choose one over the other?
             //=========================================================
 
-        #endregion
+            //----------------------------------------------------------------------------------------------------------------
+            // | Feature          |          Abstract Class                      |           Interface                       |
+            // | ---------------- | ---------------------------------------------|-------------------------------------------|
+            // | Methods          | Can contain abstract and implemented methods | Usually only method signatures            |
+            // | Fields           | Can have fields                              | Cannot have fields                        |
+            // | Constructors     | Can have constructors                        | Cannot have constructors                  |
+            // | Access Modifiers | Methods can have any access modifier         | Members are public by default             |
+            // | Inheritance      | A class can inherit only one abstract class  | A class can implement multiple interfaces |
+            //----------------------------------------------------------------------------------------------------------------
 
-        #region Question 3
+            // When to use each:
+
+            //   Use an Abstract Class when:
+            //      Classes share common code
+            //      Represents an "is-a" hierarchy
+            //      You want base functionality
+            //      Objects have a strong relationship
+            //      Example:   Appliance → WashingMachine, Toaster
+
+            //   Use an Interface when:
+            //      Multiple inheritance needed
+            //      Loose coupling / extensibility
+            //      You want to define a capability
+            //      Unrelated classes should share behavior
+            //      Example:  IPrintable, ISerializable, IComparable
+
+            #endregion
+
+            #region Question 3
 
             //=========================================================
             //Q3 : Look at the following code and answer the questions below:
@@ -109,9 +138,9 @@ namespace Assignment_6
             //=========================================================
 
 
-        #endregion
+            #endregion
 
-        #region Question 4
+            #region Question 4
 
             //=========================================================
             //Q4 : Look at the following code and answer the questions below:
@@ -166,11 +195,11 @@ namespace Assignment_6
             //=========================================================
 
 
-        #endregion
+            #endregion
 
-        #endregion
+            #endregion
 
-        #region Part 02 : Extending the Movie Ticket Booking System
+            #region Part 02 : Extending the Movie Ticket Booking System
 
             //============================================================
             //User Story :
@@ -195,7 +224,7 @@ namespace Assignment_6
             //• Calling the extension methods naturally on objects(not as static method calls)
             //==================================================
 
-        #region Main
+            #region Main
 
             //==================================================
             //In Main, demonstrate :
@@ -241,9 +270,9 @@ namespace Assignment_6
             // === Cinema Closed ===
             //------------------------------------------
 
-        #endregion
+            #endregion
 
-        #endregion
+            #endregion
 
             Console.WriteLine("\n" + new string('-', 70) + "\n");
 
