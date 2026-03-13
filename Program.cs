@@ -1,4 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+using System.IO;
+using System.Security.Principal;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Assignment_6
 {
@@ -19,18 +23,53 @@ namespace Assignment_6
             //Give a real - world example(not from the session) that shows the difference between the two.
             //=========================================================
 
-            #endregion
+            //Abstraction means hiding complex implementation details and showing only the necessary features of an object.
+            //It focuses on what an object does rather than how it does it.
 
-            #region Question 2
+            // usually implemented using:  abstract classes ,  interfaces
+
+            //   Difference
+
+            //----------------------------------------------------------------------------------------------------
+            // |            Abstraction                         |             Encapsulation                      |
+            // | ---------------------------------------------- | ---------------------------------------------- |
+            // | Hides implementation details                   | Hides internal data                            |
+            // | Achieved using abstract classes and interfaces | Achieved using access modifiers and properties |
+            // | Focuses on behavior                            | Focuses on protecting data                     |
+            //----------------------------------------------------------------------------------------------------
+            // Real-World Example: ATM Machine
+            //-----------------------
+            // Abstraction 
+            //-----------------------
+
+            //When you use an ATM, you only see options like:
+            // Withdraw , Deposit , Check balance
+            // You do not see the internal banking system logic.
+            // So the ATM abstracts the complex banking operations.
+
+            //-----------------------
+            // Encapsulation 
+            //-----------------------
+
+            //The ATM system stores:
+            //Account number , Balance
+            //These values cannot be modified directly.
+            //They change only through methods like:
+            //Withdraw() , Deposit()
+            //So the data is protected inside the system.
+
+        #endregion
+
+        #region Question 2
 
             //=========================================================
             //Q2 : What is the difference between an abstract class and an interface?
             //Give at least four differences.When would you choose one over the other?
             //=========================================================
 
-            #endregion
+        #endregion
 
-            #region Question 3
+        #region Question 3
 
             //=========================================================
             //Q3 : Look at the following code and answer the questions below:
@@ -70,9 +109,9 @@ namespace Assignment_6
             //=========================================================
 
 
-            #endregion
+        #endregion
 
-            #region Question 4
+        #region Question 4
 
             //=========================================================
             //Q4 : Look at the following code and answer the questions below:
@@ -127,11 +166,11 @@ namespace Assignment_6
             //=========================================================
 
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #region Part 02 : Extending the Movie Ticket Booking System
+        #region Part 02 : Extending the Movie Ticket Booking System
 
             //============================================================
             //User Story :
@@ -156,7 +195,7 @@ namespace Assignment_6
             //• Calling the extension methods naturally on objects(not as static method calls)
             //==================================================
 
-            #region Main
+        #region Main
 
             //==================================================
             //In Main, demonstrate :
@@ -202,9 +241,9 @@ namespace Assignment_6
             // === Cinema Closed ===
             //------------------------------------------
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
             Console.WriteLine("\n" + new string('-', 70) + "\n");
 
