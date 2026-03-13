@@ -3,6 +3,7 @@ using Microsoft.VisualBasic;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection.Emit;
 using System.Runtime.Serialization;
 using System.Security.Principal;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -103,6 +104,7 @@ namespace Assignment_6
             //=========================================================
             //Q3 : Look at the following code and answer the questions below:
             //-----------------------
+            /*
             //        public abstract class Appliance
             //        {
             //            public string Brand { get; set; }
@@ -128,153 +130,185 @@ namespace Assignment_6
             //            public Toaster(string brand) : base(brand) { }
             //            public override double PowerConsumption() => 800;
             //        }
+            */
             //-----------------------
             //  a) Can you write: Appliance a = new Appliance("LG"); ? Why or why not?
+            //---------------------------------------
 
+            // No, this is not allowed.Because Appliance is an abstract class,
+            // and abstract classes cannot be instantiated directly.
+
+            //---------------------------------------
             //  b) What is the difference between the three methods: PowerConsumption(), Status(), and Label()?
             //  Why did the designer make each one abstract, virtual, or concrete?
+            //---------------------------------------
 
+            // PowerConsumption()
+            //   Abstract method , Has no implementation
+            //   Must be implemented by derived classes
+            //   Reason: Each appliance consumes different power.
+            //   Example:
+            //      WashingMachine → 500W  
+            //      Toaster → 800W
+
+            // Status()
+            //   Virtual method , Has default implementation
+            //   Child classes can override it if needed
+            //   Example:
+            //      WashingMachine overrides → "Washing"
+            //      Toaster does not override.
+
+            // Label()
+            //   Concrete method , Fully implemented in the base class
+            //   All appliances use the same logic
+            //   Reason: Every appliance label follows the same format.
+
+            //---------------------------------------
             //  c) If you call Status() on a Toaster object, what will it return? Why?
-            //=========================================================
+            //---------------------------------------
+
+            // return:   Standby
+            // Because Status() in the base class is virtual and Toaster does not override it So the base implementation is used
+
+           //=========================================================
+
+           #endregion
+
+        #region Question 4
+
+                        //=========================================================
+                        //Q4 : Look at the following code and answer the questions below:
+                        //-----------------------
+                        //// File: Calculator.cs
+                        //-----------------------
+                        //        public partial class Calculator
+                        //        {
+                        //            public double LastResult { get; private set; }
+                        //            partial void OnCalculated(double result);
+
+                        //            public double Add(double a, double b)
+                        //            {
+                        //                LastResult = a + b;
+                        //                OnCalculated(LastResult);
+                        //                return LastResult;
+                        //            }
+                        //        }
+                        //-----------------------
+                        //        // File: Calculator.Logging.cs
+                        //-----------------------
+                        //        public partial class Calculator
+                        //        {
+                        //            partial void OnCalculated(double result)
+                        //            {
+                        //                Console.WriteLine($"Log: result = {result}");
+                        //            }
+                        //        }
+                        //-----------------------
+                        //        // File: DoubleExtensions.cs
+                        //-----------------------
+                        //        public static class DoubleExtensions
+                        //        {
+                        //            public static string ToCurrency(this double value)
+                        //                => $"${value:F2}";
+                        //        }
+                        //-----------------------
+                        //    a) What is a partial class? Why would a developer split Calculator into two files?
+                        //
+                        //   b) What is a partial method?
+                        //    What happens if the OnCalculated() implementation in Calculator.Logging.cs is deleted
+                        //    — will the code still compile? Why?
+                        //
+                        //    c) What is an extension method? What are the three rules for writing one?
+                        //
+                        //    d) What will the following code print?
+                        //-----------------------
+                        //Calculator calc = new Calculator();
+                        //        double result = calc.Add(19.5, 0.5);
+                        //        Console.WriteLine(result.ToCurrency());
+                        //-----------------------
+                        //=========================================================
 
 
-            #endregion
+        #endregion
 
-            #region Question 4
+        #endregion
 
-            //=========================================================
-            //Q4 : Look at the following code and answer the questions below:
-            //-----------------------
-            //// File: Calculator.cs
-            //-----------------------
-            //        public partial class Calculator
-            //        {
-            //            public double LastResult { get; private set; }
-            //            partial void OnCalculated(double result);
+        #region Part 02 : Extending the Movie Ticket Booking System
 
-            //            public double Add(double a, double b)
-            //            {
-            //                LastResult = a + b;
-            //                OnCalculated(LastResult);
-            //                return LastResult;
-            //            }
-            //        }
-            //-----------------------
-            //        // File: Calculator.Logging.cs
-            //-----------------------
-            //        public partial class Calculator
-            //        {
-            //            partial void OnCalculated(double result)
-            //            {
-            //                Console.WriteLine($"Log: result = {result}");
-            //            }
-            //        }
-            //-----------------------
-            //        // File: DoubleExtensions.cs
-            //-----------------------
-            //        public static class DoubleExtensions
-            //        {
-            //            public static string ToCurrency(this double value)
-            //                => $"${value:F2}";
-            //        }
-            //-----------------------
-            //    a) What is a partial class? Why would a developer split Calculator into two files?
-            //
-            //   b) What is a partial method?
-            //    What happens if the OnCalculated() implementation in Calculator.Logging.cs is deleted
-            //    — will the code still compile? Why?
-            //
-            //    c) What is an extension method? What are the three rules for writing one?
-            //
-            //    d) What will the following code print?
-            //-----------------------
-            //Calculator calc = new Calculator();
-            //        double result = calc.Add(19.5, 0.5);
-            //        Console.WriteLine(result.ToCurrency());
-            //-----------------------
-            //=========================================================
+                        //============================================================
+                        //User Story :
 
+                        //The cinema manager has reviewed the system and requested three improvements:
 
-            #endregion
+                        //1. No Plain Tickets — The manager noticed that in theory, someone could create a plain Ticket object that doesn't belong to any category. This should never happen — every ticket must be either Standard, VIP, or IMAX. The system should enforce this at the design level so the compiler itself prevents creating a plain Ticket. At the same time, there are some calculations that every ticket type must provide its own version of (like how the final price is calculated), while other behaviors (like booking and cancellation) should stay shared across all types.
 
-            #endregion
+                        //2. Organized Cinema Code — The Cinema class is growing too large with ticket management, reporting, and projector control all in one file.The development team wants to split it into multiple files for better organization, without creating separate classes. One file should handle ticket operations (adding tickets, booking), and another should handle reporting (printing all tickets, showing statistics). Both files should contribute to a single Cinema class.
 
-            #region Part 02 : Extending the Movie Ticket Booking System
+                        //3. Useful Utilities Without Modifying Existing Classes — The team needs to add some handy features to the existing Ticket types without touching their source code.For example: a method to generate a formatted receipt string from any ticket, and a method that takes an array of tickets and returns the total revenue. These should feel like they belong to the Ticket class when you call them, even though they are defined elsewhere.
+                        //=====================================================================
 
-            //============================================================
-            //User Story :
+                        //Requirements :
 
-            //The cinema manager has reviewed the system and requested three improvements:
+                        //Your solution must demonstrate the following concepts from this session:
+                        //• Making the base Ticket class abstract — with at least one abstract method that each child class must implement
+                        //• Using abstract, virtual, and concrete members together in the abstract class
+                        //• Using the abstract class for polymorphism(e.g.an array of Ticket holding different types)
+                        //• Splitting the Cinema class using partial classes(at least two files)
+                        //• Creating a static class with at least two extension methods for Ticket or Ticket-related types
+                        //• Calling the extension methods naturally on objects(not as static method calls)
+                        //==================================================
 
-            //1. No Plain Tickets — The manager noticed that in theory, someone could create a plain Ticket object that doesn't belong to any category. This should never happen — every ticket must be either Standard, VIP, or IMAX. The system should enforce this at the design level so the compiler itself prevents creating a plain Ticket. At the same time, there are some calculations that every ticket type must provide its own version of (like how the final price is calculated), while other behaviors (like booking and cancellation) should stay shared across all types.
+        #region Main
 
-            //2. Organized Cinema Code — The Cinema class is growing too large with ticket management, reporting, and projector control all in one file.The development team wants to split it into multiple files for better organization, without creating separate classes. One file should handle ticket operations (adding tickets, booking), and another should handle reporting (printing all tickets, showing statistics). Both files should contribute to a single Cinema class.
+                        //==================================================
+                        //In Main, demonstrate :
 
-            //3. Useful Utilities Without Modifying Existing Classes — The team needs to add some handy features to the existing Ticket types without touching their source code.For example: a method to generate a formatted receipt string from any ticket, and a method that takes an array of tickets and returns the total revenue. These should feel like they belong to the Ticket class when you call them, even though they are defined elsewhere.
-            //=====================================================================
+                        //a.Try to create a plain Ticket object and show(in a comment) that the compiler prevents it.
+                        //b.Create one of each ticket type with hardcoded data.Book all three.
+                        //c.Add all three tickets to a Cinema and print them all(the print should go through the Cinema's reporting partial file).
+                        //d.Use polymorphism: loop through a Ticket[] array and call the abstract method on each to show each type calculates differently.
+                        //e.Call an extension method on a ticket to generate a receipt string and print it.
+                        //f.Call an extension method on the ticket array to calculate and print the total revenue.
+                        //g.Close the Cinema.
+                        //==================================================
+                        //Expected Output (Example) :
+                        //----------------------------------
+                        //=== Cinema Opened ===
+                        // Projector ON
 
-            //Requirements :
+                        // // Ticket t = new Ticket("Test", 100);  // ERROR: Cannot create instance of abstract type 'Ticket'
 
-            //Your solution must demonstrate the following concepts from this session:
-            //• Making the base Ticket class abstract — with at least one abstract method that each child class must implement
-            //• Using abstract, virtual, and concrete members together in the abstract class
-            //• Using the abstract class for polymorphism(e.g.an array of Ticket holding different types)
-            //• Splitting the Cinema class using partial classes(at least two files)
-            //• Creating a static class with at least two extension methods for Ticket or Ticket-related types
-            //• Calling the extension methods naturally on objects(not as static method calls)
-            //==================================================
+                        // --- All Tickets (from Cinema.Reporting) ---
+                        // [Ticket #1] Inception | Standard | Seat: A5 | Price: 80 | Final: 91.20 | Booked: Yes
+                        // [Ticket #2] Avengers | VIP | Lounge: Yes | Fee: 50 | Price: 200 | Final: 285.00 | Booked: Yes
+                        // [Ticket #3] Dune | IMAX | 3D: Yes | Price: 130 | Final: 148.20 | Booked: Yes
 
-            #region Main
+                        // --- Polymorphism: Final Price per Ticket ---
+                        // StandardTicket => Final Price: 91.20
+                        // VIPTicket => Final Price: 285.00
+                        // IMAXTicket => Final Price: 148.20
 
-            //==================================================
-            //In Main, demonstrate :
+                        // --- Extension Method: Receipt ---
+                        // ========== RECEIPT ==========
+                        //   Movie    : Avengers
+                        //   Type     : VIPTicket
+                        //   Price    : 200
+                        //   Final    : 285.00
+                        //   Status   : Booked
+                        // =============================
 
-            //a.Try to create a plain Ticket object and show(in a comment) that the compiler prevents it.
-            //b.Create one of each ticket type with hardcoded data.Book all three.
-            //c.Add all three tickets to a Cinema and print them all(the print should go through the Cinema's reporting partial file).
-            //d.Use polymorphism: loop through a Ticket[] array and call the abstract method on each to show each type calculates differently.
-            //e.Call an extension method on a ticket to generate a receipt string and print it.
-            //f.Call an extension method on the ticket array to calculate and print the total revenue.
-            //g.Close the Cinema.
-            //==================================================
-            //Expected Output (Example) :
-            //----------------------------------
-            //=== Cinema Opened ===
-            // Projector ON
+                        // --- Extension Method: Total Revenue ---
+                        // Total Revenue: 524.40
 
-            // // Ticket t = new Ticket("Test", 100);  // ERROR: Cannot create instance of abstract type 'Ticket'
+                        // Projector OFF
+                        // === Cinema Closed ===
+                        //------------------------------------------
 
-            // --- All Tickets (from Cinema.Reporting) ---
-            // [Ticket #1] Inception | Standard | Seat: A5 | Price: 80 | Final: 91.20 | Booked: Yes
-            // [Ticket #2] Avengers | VIP | Lounge: Yes | Fee: 50 | Price: 200 | Final: 285.00 | Booked: Yes
-            // [Ticket #3] Dune | IMAX | 3D: Yes | Price: 130 | Final: 148.20 | Booked: Yes
+        #endregion
 
-            // --- Polymorphism: Final Price per Ticket ---
-            // StandardTicket => Final Price: 91.20
-            // VIPTicket => Final Price: 285.00
-            // IMAXTicket => Final Price: 148.20
+        #endregion
 
-            // --- Extension Method: Receipt ---
-            // ========== RECEIPT ==========
-            //   Movie    : Avengers
-            //   Type     : VIPTicket
-            //   Price    : 200
-            //   Final    : 285.00
-            //   Status   : Booked
-            // =============================
-
-            // --- Extension Method: Total Revenue ---
-            // Total Revenue: 524.40
-
-            // Projector OFF
-            // === Cinema Closed ===
-            //------------------------------------------
-
-            #endregion
-
-            #endregion
-
-            Console.WriteLine("\n" + new string('-', 70) + "\n");
+                        Console.WriteLine("\n" + new string('-', 70) + "\n");
 
         }
     }
