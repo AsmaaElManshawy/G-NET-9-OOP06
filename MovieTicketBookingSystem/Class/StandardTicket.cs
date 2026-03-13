@@ -17,26 +17,20 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
         }
 
         public override string ToString()
-        {
-            return base.ToString() + $" | Seat: {SeatNumber}";
-        }
+            => base.ToString() + $" | Seat: {SeatNumber}";
 
-
-        //2. In each child class, provide its own version of PrintTicket():
-        //a.StandardTicket — prints the base ticket info and the SeatNumber.
+        public override object Clone()
+            => new StandardTicket(MovieName, Price, SeatNumber);
 
         #region Assignment 05
+        public override decimal CalculateFinalPrice() 
+            => Price * 1.14m;
 
         public override void Print()
         {
-            Console.WriteLine($"[Ticket #{TicketId}] {MovieName} | Standard | Seat: {SeatNumber} | Price: {Price} | After Tax: {PriceAfterTax} | Booked: {(IsBooked ? "Yes" : "No")}");
+            Console.WriteLine($"[Ticket #{TicketId}] {MovieName} | Standard | Seat: {SeatNumber} | Price: {Price} | Final: {CalculateFinalPrice():F2} | Booked: {(IsBooked ? "Yes" : "No")}");
         }
-
-        public override object Clone()
-        {
-            return new StandardTicket(MovieName, Price, SeatNumber);
-        }
-
+        
         #endregion
     }
 }

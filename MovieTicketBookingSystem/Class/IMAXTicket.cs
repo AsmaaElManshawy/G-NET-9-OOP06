@@ -6,7 +6,7 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
     {
         public bool Is3D { get; set; }
 
-        public IMAXTicket(string movieName, decimal price, bool is3D) : base(movieName, is3D ? price + 30m : price)
+        public IMAXTicket(string movieName, decimal price, bool is3D) : base(movieName, price)
         {
             Is3D = is3D;
         }
@@ -22,23 +22,24 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
             return base.ToString() + $" | IMAX 3D: {type}";
         }
 
-        //2. In each child class, provide its own version of PrintTicket():
-        //c.IMAXTicket — prints the base ticket info and whether it is 3D.
 
+        public override object Clone()
+                => new IMAXTicket(MovieName, Price, Is3D);
 
         #region Assignment 05
 
-        public override void Print()
-        {
-            Console.WriteLine($"[Ticket #{TicketId}] {MovieName} | IMAX | 3D: {(Is3D ? "Yes" : "No")} | Price: {Price} | After Tax: {PriceAfterTax} | Booked: {(IsBooked ? "Yes" : "No")}");
-        }
-
-        public override object Clone()
+        public override decimal CalculateFinalPrice()
         {
             if (Is3D)
-                return new IMAXTicket(MovieName, Price - 30m, Is3D);
-            else
-                return new IMAXTicket(MovieName, Price, Is3D);
+            {
+                return (Price + 30) * 1.14m;
+            }
+            return Price * 1.14m;
+        }
+
+        public override void Print()
+        {
+            Console.WriteLine($"[Ticket #{TicketId}] {MovieName} | IMAX | 3D: {(Is3D ? "Yes" : "No")} | Price: {Price} | Final: {CalculateFinalPrice():F2} | Booked: {(IsBooked ? "Yes" : "No")}");
         }
 
         #endregion

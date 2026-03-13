@@ -7,12 +7,12 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
         //a Projector object (created inside Cinema)
         public void Start()
         {
-            Console.WriteLine("Projector ON");
+            Console.WriteLine("Projector ON\n");
         }
 
         public void Stop()
         {
-            Console.WriteLine("Projector OFF");
+            Console.WriteLine("\nProjector OFF");
         }
     }
 }
