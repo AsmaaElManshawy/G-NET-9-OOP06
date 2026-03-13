@@ -1,4 +1,6 @@
-﻿using Assignment_6.MovieTicketBookingSystem.Interfaces;
+﻿using Assignment_6.MovieTicketBookingSystem.Class;
+using Assignment_6.MovieTicketBookingSystem.ExtensionMethods;
+using Assignment_6.MovieTicketBookingSystem.Interfaces;
 using Microsoft.VisualBasic;
 using System;
 using System.ComponentModel;
@@ -265,31 +267,50 @@ namespace Assignment_6
 
             #region Part 02 : Extending the Movie Ticket Booking System
 
-            //============================================================
-            //User Story :
-
-            //The cinema manager has reviewed the system and requested three improvements:
-
-            //1. No Plain Tickets — The manager noticed that in theory, someone could create a plain Ticket object that doesn't belong to any category. This should never happen — every ticket must be either Standard, VIP, or IMAX. The system should enforce this at the design level so the compiler itself prevents creating a plain Ticket. At the same time, there are some calculations that every ticket type must provide its own version of (like how the final price is calculated), while other behaviors (like booking and cancellation) should stay shared across all types.
-
-            //2. Organized Cinema Code — The Cinema class is growing too large with ticket management, reporting, and projector control all in one file.The development team wants to split it into multiple files for better organization, without creating separate classes. One file should handle ticket operations (adding tickets, booking), and another should handle reporting (printing all tickets, showing statistics). Both files should contribute to a single Cinema class.
-
-            //3. Useful Utilities Without Modifying Existing Classes — The team needs to add some handy features to the existing Ticket types without touching their source code.For example: a method to generate a formatted receipt string from any ticket, and a method that takes an array of tickets and returns the total revenue. These should feel like they belong to the Ticket class when you call them, even though they are defined elsewhere.
-            //=====================================================================
-
-            //Requirements :
-
-            //Your solution must demonstrate the following concepts from this session:
-            //• Making the base Ticket class abstract — with at least one abstract method that each child class must implement
-            //• Using abstract, virtual, and concrete members together in the abstract class
-            //• Using the abstract class for polymorphism(e.g.an array of Ticket holding different types)
-            //• Splitting the Cinema class using partial classes(at least two files)
-            //• Creating a static class with at least two extension methods for Ticket or Ticket-related types
-            //• Calling the extension methods naturally on objects(not as static method calls)
-            //==================================================
+            /*
+            * //============================================================
+            * //User Story :
+            * 
+            * //The cinema manager has reviewed the system and requested three improvements:
+            * 
+            * //1. No Plain Tickets — The manager noticed that in theory, 
+            * someone could create a plain Ticket object that doesn't belong to any category. 
+            * This should never happen — every ticket must be either Standard, VIP, or IMAX. 
+            * The system should enforce this at the design level so the compiler itself prevents creating a plain Ticket. 
+            * At the same time, there are some calculations that every ticket type must provide its own version 
+            * of (like how the final price is calculated), 
+            * while other behaviors (like booking and cancellation) should stay shared across all types.
+            * 
+            * //2. Organized Cinema Code — The Cinema class is growing too large 
+            * with ticket management, reporting, and projector control all in one file.
+            * The development team wants to split it into multiple files for better organization, 
+            * without creating separate classes.  ==>  Partial Class
+            * One file should handle ticket operations (adding tickets, booking), 
+            * and another should handle reporting (printing all tickets, showing statistics). 
+            * Both files should contribute to a single Cinema class.
+            * 
+            * //3. Useful Utilities Without Modifying Existing Classes ==> Extension Methods
+            * — The team needs to add some handy features to the existing Ticket types without touching their source code.
+            * For example: a method to generate a formatted receipt string from any ticket, 
+            * and a method that takes an array of tickets and returns the total revenue. 
+            * These should feel like they belong to the Ticket class when you call them, even though they are defined elsewhere.
+            * //=====================================================================
+            * 
+            * //Requirements :
+            * 
+            * //Your solution must demonstrate the following concepts from this session:
+            * //• Making the base Ticket class abstract — with at least one abstract method that each child class must implement
+            * //• Using abstract, virtual, and concrete members together in the abstract class
+            * //• Using the abstract class for polymorphism(e.g.an array of Ticket holding different types)
+            * //• Splitting the Cinema class using partial classes(at least two files)
+            * //• Creating a static class with at least two extension methods for Ticket or Ticket-related types
+            * //• Calling the extension methods naturally on objects(not as static method calls)
+            * //==================================================
+            */
 
             #region Main
 
+            /*
             //==================================================
             //In Main, demonstrate :
 
@@ -300,46 +321,87 @@ namespace Assignment_6
             //e.Call an extension method on a ticket to generate a receipt string and print it.
             //f.Call an extension method on the ticket array to calculate and print the total revenue.
             //g.Close the Cinema.
+            */
             //==================================================
-            //Expected Output (Example) :
-            //----------------------------------
-            //=== Cinema Opened ===
-            // Projector ON
-
-            // // Ticket t = new Ticket("Test", 100);  // ERROR: Cannot create instance of abstract type 'Ticket'
-
-            // --- All Tickets (from Cinema.Reporting) ---
-            // [Ticket #1] Inception | Standard | Seat: A5 | Price: 80 | Final: 91.20 | Booked: Yes
-            // [Ticket #2] Avengers | VIP | Lounge: Yes | Fee: 50 | Price: 200 | Final: 285.00 | Booked: Yes
-            // [Ticket #3] Dune | IMAX | 3D: Yes | Price: 130 | Final: 148.20 | Booked: Yes
-
-            // --- Polymorphism: Final Price per Ticket ---
-            // StandardTicket => Final Price: 91.20
-            // VIPTicket => Final Price: 285.00
-            // IMAXTicket => Final Price: 148.20
-
-            // --- Extension Method: Receipt ---
-            // ========== RECEIPT ==========
-            //   Movie    : Avengers
-            //   Type     : VIPTicket
-            //   Price    : 200
-            //   Final    : 285.00
-            //   Status   : Booked
-            // =============================
-
-            // --- Extension Method: Total Revenue ---
-            // Total Revenue: 524.40
-
-            // Projector OFF
-            // === Cinema Closed ===
+            /*Expected Output (Example) :
+            *----------------------------------
+            *=== Cinema Opened ===
+            * Projector ON
+            *
+            * // Ticket t = new Ticket("Test", 100);  // ERROR: Cannot create instance of abstract type 'Ticket'
+            *
+            * --- All Tickets (from Cinema.Reporting) ---
+            * [Ticket #1] Inception | Standard | Seat: A5 | Price: 80 | Final: 91.20 | Booked: Yes
+            * [Ticket #2] Avengers | VIP | Lounge: Yes | Fee: 50 | Price: 200 | Final: 285.00 | Booked: Yes
+            * [Ticket #3] Dune | IMAX | 3D: Yes | Price: 130 | Final: 148.20 | Booked: Yes
+            *
+            * --- Polymorphism: Final Price per Ticket ---
+            * StandardTicket => Final Price: 91.20
+            * VIPTicket => Final Price: 285.00
+            * IMAXTicket => Final Price: 148.20
+            *
+            * --- Extension Method: Receipt ---
+            * ========== RECEIPT ==========
+            *   Movie    : Avengers
+            *   Type     : VIPTicket
+            *   Price    : 200
+            *   Final    : 285.00
+            *   Status   : Booked
+            * =============================
+            *
+            * --- Extension Method: Total Revenue ---
+            * Total Revenue: 524.40
+            *
+            * Projector OFF
+            * === Cinema Closed ===
+            */
             //------------------------------------------
+
+            Cinema cinema = new Cinema("My Cinema");
+
+            cinema.OpenCinema();
+
+            // Ticket t = new Ticket("Test", 100);
+            // ERROR: Cannot create instance of abstract type 'Ticket'
+
+            Console.WriteLine("// Ticket t = new Ticket(\"Test\", 100);  // ERROR: Cannot create instance of abstract type 'Ticket'\r\n");
+
+            StandardTicket t1 = new StandardTicket("Inception", 80, "A5");
+            VIPTicket t2 = new VIPTicket("Avengers", 200, true);
+            IMAXTicket t3 = new IMAXTicket("Dune", 130, true);
+
+            t1.Book();
+            t2.Book();
+            t3.Book();
+
+            cinema.AddTicket(t1);
+            cinema.AddTicket(t2);
+            cinema.AddTicket(t3);
+
+            cinema.PrintAllTickets();
+
+            Console.WriteLine("--- Polymorphism: Final Price per Ticket ---");
+
+            Ticket[] arr = { t1, t2, t3 };
+
+            foreach (Ticket t in arr)
+            {
+                Console.WriteLine($"{t.GetType().Name} => Final Price: {t.CalculateFinalPrice():F2}");
+            }
+
+            Console.WriteLine("\n--- Extension Method: Receipt ---");
+            Console.WriteLine(t2.GetReceipt());
+
+            Console.WriteLine("\n--- Extension Method: Total Revenue ---");
+            Console.WriteLine($"Total Revenue: {arr.TotalRevenue():F2}");
+
+            cinema.CloseCinema();
 
             #endregion
 
             #endregion
 
             Console.WriteLine("\n" + new string('-', 70) + "\n");
-
         }
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace Assignment_6.MovieTicketBookingSystem.Class
 {
-    internal class Ticket : IPrintable , IBookable , ICloneable
+    internal abstract class Ticket : IPrintable , IBookable , ICloneable
     {
         private string movieName;
         public string MovieName
@@ -31,6 +31,7 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
             }
         }
 
+        public bool IsBooked { get; private set; }
         // Ticket ID
         public int TicketId { get; }
 
@@ -38,7 +39,7 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
         private static int ticketCounter = 0;
 
         // Constructor
-        public Ticket(string movieName, decimal price)
+        protected Ticket(string movieName, decimal price)
         {
             MovieName = movieName;
             Price = price;
@@ -46,20 +47,11 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
             TicketId = ticketCounter;
         }
 
-        public Ticket(string movieName)
+        protected Ticket(string movieName)
         {
             ticketCounter++;
             TicketId = ticketCounter;
             MovieName = movieName;
-        }
-
-        // A computed property PriceAfterTax that returns the price with 14% tax.
-        public decimal PriceAfterTax
-        {
-            get
-            {
-                return Price * 1.14m;
-            }
         }
 
         // A static int GetTotalTickets() method that returns the total number of tickets created.
@@ -68,19 +60,8 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
             return ticketCounter;
         }
 
-        // Override ToString() to return the ticket info.
-        //public override string ToString()
-        //{
-        //    return $"Ticket #{TicketId} | {MovieName} | Seat: {Seat} | Price: {Price} EGP | After Tax: {PriceAfterTax:F2} EGP";
-        //}
-
         public override string ToString()
-        {
-            return $"Ticket #{TicketId} | {MovieName} | Price: {Price} EGP | After Tax: {PriceAfterTax:F2} EGP";
-        }
-
-        //b.Add two versions of a SetPrice method — one that takes a decimal (sets price directly)
-        //and one that takes a decimal base price and a decimal multiplier(sets price = base × multiplier).
+            => $"Ticket #{TicketId} | {MovieName}";
 
         // Method Overloading
         public void SetPrice(decimal price)
@@ -92,10 +73,6 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
         {
             Price = basePrice * multiplier;
         }
-
-        #region Assignment 05
-
-        public bool IsBooked { get; private set; }
 
         public bool Book()
         {
@@ -120,15 +97,15 @@ namespace Assignment_6.MovieTicketBookingSystem.Class
             string status = IsBooked ? "Booked" : "Available";
 
             Console.WriteLine(
-                $"Ticket #{TicketId} | {MovieName} | Price: {Price} EGP | After Tax: {PriceAfterTax:F2} EGP | Status: {status}"
+                $"Ticket #{TicketId} | {MovieName} | Status: {status}"
             );
         }
 
-        public virtual object Clone()
-        {
-            return new Ticket(movieName, price);
-        }
+        #region Assignment 06
+        public abstract object Clone();
 
+        // Abstract method (must be implemented by child classes)
+        public abstract decimal CalculateFinalPrice();
         #endregion
     }
 }
