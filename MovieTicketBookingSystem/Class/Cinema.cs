@@ -1,0 +1,101 @@
+﻿using Assignment_6.MovieTicketBookingSystem.Interfaces;
+using System;
+
+
+namespace Assignment_6.MovieTicketBookingSystem.Class
+{
+    internal partial class Cinema
+    {
+        public string CinemaName { get; set; }
+
+        private Projector projector = new Projector(); // Composition
+        private Ticket[] tickets = new Ticket[20];
+
+        public Cinema(string name)
+        {
+            CinemaName = name;
+        }
+
+        // Indexer
+        public Ticket this[int index]
+        {
+            get
+            {
+                if (index >= 0 && index < tickets.Length)
+                    return tickets[index];
+                return null;
+            }
+            set
+            {
+                if (index >= 0 && index < tickets.Length)
+                    tickets[index] = value;
+            }
+        }
+        // Get Movie By Name
+        public Ticket GetMovieByName(string movieName)
+        {
+            foreach (var ticket in tickets)
+            {
+                if (ticket != null && ticket.MovieName.Equals(movieName, StringComparison.OrdinalIgnoreCase))
+                    return ticket;
+            }
+            return null;
+        }
+        // Add Ticket
+        public bool AddTicket(Ticket t)
+        {
+            for (int i = 0; i < tickets.Length; i++)
+            {
+                if (tickets[i] == null)
+                {
+                    tickets[i] = t;
+                    return true;
+                }
+            }
+            Console.WriteLine("Cinema is full!");
+            return false;
+        }
+
+        //c.OpenCinema() and CloseCinema() — start/stop the projector.
+
+        public void OpenCinema()
+        {
+            Console.WriteLine("========== Cinema Opened ==========");
+            projector.Start();
+        }
+
+        public void CloseCinema()
+        {
+            Console.WriteLine("\n========== Cinema Closed ==========");
+            projector.Stop();
+        }
+
+
+        //4. Create a static method ProcessTicket(Ticket t) that takes any Ticket and calls PrintTicket() on it.
+
+        public static void ProcessTicket(Ticket t)
+        {
+            Console.WriteLine("\n========== Process Single Ticket ==========");
+            t.Print();
+        }
+
+        #region Assignment 05
+
+        public void PrintAllTickets()
+        {
+            Console.WriteLine("--- All Tickets ---");
+
+            foreach (IPrintable t in tickets)
+            {
+                if (t != null)
+                {
+                    t.Print();
+                }
+            }
+
+            Console.WriteLine();
+        }
+
+        #endregion
+    }
+}
